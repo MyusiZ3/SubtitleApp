@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Languages, Type, Video, Zap, Wrench } from "lucide-react";
+import { Languages, Type, Video, Wrench } from "lucide-react";
 import Converter from "./components/Converter";
 import Translator from "./components/Translator";
 import Editor from "./components/Editor";
+
+import AutoSubtitle from "./components/AutoSubtitle";
 
 import BackgroundShapes from "./components/BackgroundShapes";
 
@@ -74,21 +76,7 @@ function App() {
           {activeTab === "convert" && <Converter />}
           {activeTab === "translate" && <Translator />}
           {activeTab === "tools" && <Editor />}
-
-          {activeTab === "auto" && (
-            <div className="max-w-md">
-              <div className="bg-primary/20 p-8 neo-border border-dashed mb-6 cursor-pointer hover:bg-primary/30 transition-colors">
-                <Video size={48} className="mx-auto mb-4" />
-                <p className="font-bold">UPLOAD VIDEO FILE</p>
-                <p className="text-sm text-red-600 font-bold italic">
-                  No Upload Required - Local Extraction
-                </p>
-              </div>
-              <button className="neo-button bg-primary w-full">
-                <Zap size={20} /> Generate Subtitles
-              </button>
-            </div>
-          )}
+          {activeTab === "auto" && <AutoSubtitle />}
         </div>
       </main>
 
