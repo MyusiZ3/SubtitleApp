@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Space Grotesk', system-ui, sans-serif;
+  --color-primary: #FFE600;
+  --color-secondary: #FF499E;
+  --color-accent: #00E5FF;
+  --shadow-neo: 4px 4px 0px 0px rgba(0,0,0,1);
+  --shadow-neo-lg: 8px 8px 0px 0px rgba(0,0,0,1);
+}
+
+@layer base {
+  body {
+    @apply bg-[#4361EE] text-black font-sans overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold uppercase tracking-tight;
+  }
+}
+
+@layer components {
+  .neo-border {
+    @apply border-4 border-black;
+  }
+
+  .neo-shadow {
+    @apply shadow-neo transition-all;
+  }
+  
+  .neo-shadow:hover {
+    @apply translate-x-[2px] translate-y-[2px] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)];
+  }
+  
+  .neo-shadow:active {
+    @apply translate-x-[4px] translate-y-[4px] shadow-none;
+  }
+
+  .neo-card {
+    @apply bg-white border-4 border-black shadow-neo p-6;
+  }
+
+  .neo-button {
+    @apply bg-primary border-4 border-black shadow-neo px-6 py-3 font-bold uppercase inline-flex items-center justify-center gap-2 transition-all;
+  }
+  
+  .neo-button:hover {
+    @apply translate-x-[2px] translate-y-[2px] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)];
+  }
+  
+  .neo-button:active {
+    @apply translate-x-[4px] translate-y-[4px] shadow-none;
+  }
+
+  .neo-input {
+    @apply bg-white border-4 border-black px-4 py-2 focus:outline-none focus:bg-accent/10;
+  }
+}
