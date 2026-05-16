@@ -17,13 +17,20 @@ export const buildSubtitle = (captions: any[], format: SubtitleFormat = 'srt'): 
 };
 
 export const downloadFile = (content: string, fileName: string, mimeType: string = 'text/plain') => {
-  const blob = new Blob([content], { type: mimeType });
+  const blob = new Blob([content], { type: `${mimeType};charset=utf-8` });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
   link.download = fileName;
+  link.style.display = 'none';
+  link.target = '_blank';
+  
   document.body.appendChild(link);
   link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+  
+  // Delay cleanup to prevent "Download Failed" on mobile browsers
+  setTimeout(() => {
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }, 100);
 };
