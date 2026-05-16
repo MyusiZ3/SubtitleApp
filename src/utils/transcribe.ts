@@ -1,19 +1,6 @@
-import { pipeline } from '@xenova/transformers';
+// Use the worker from the public folder
+let worker: Worker | null = null;
 
-let transcriber: any = null;
-
-export const getTranscriber = async (onProgress?: (progress: any) => void) => {
-  if (transcriber) return transcriber;
-  
-  transcriber = await pipeline('automatic-speech-recognition', 'Xenova/whisper-tiny.en', {
-    progress_callback: (p: any) => {
-      if (onProgress) onProgress(p);
-    }
-  });
-  return transcriber;
-};
-
-// Helper to convert seconds to SRT timestamp format
 const formatTimestamp = (seconds: number): string => {
   const date = new Date(0);
   date.setSeconds(seconds);
@@ -32,23 +19,49 @@ export const generateSRT = (chunks: any[]): string => {
   }).join('\n');
 };
 
+async function decodeAudioData(audioData: Uint8Array): Promise<Float32Array> {
+  const buffer = new ArrayBuffer(audioData.byteLength);
+  new Uint8Array(buffer).set(audioData);
+
+  const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 });
+  const audioBuffer = await audioContext.decodeAudioData(buffer);
+  audioContext.close();
+  return audioBuffer.getChannelData(0);
+}
+
 export const transcribeAudio = async (
   audioData: Uint8Array, 
-  onProgress?: (p: any) => void
+  onProgress?: (p: any) => void,
+  onLog?: (msg: string) => void,
+  language: string | null = null // Optional manual override
 ): Promise<string> => {
-  const instance = await getTranscriber(onProgress);
-  
-  // Convert Uint8Array to Float32Array (required by transformers.js)
-  // Note: This assumes the audio is already 16kHz mono WAV from FFmpeg
-  const blob = new Blob([audioData as any], { type: 'audio/wav' });
-  const url = URL.createObjectURL(blob);
-  
-  const output = await instance(url, {
-    chunk_length_s: 30,
-    stride_length_s: 5,
-    return_timestamps: true,
+  if (!worker) {
+    worker = new Worker('/transcriptionWorker.js', { type: 'module' });
+  }
+
+  if (onLog) onLog('Decoding audio for AI processing...');
+  const float32Data = await decodeAudioData(audioData);
+
+  return new Promise((resolve, reject) => {
+    worker!.onmessage = (event) => {
+      const { type, data, error } = event.data;
+
+      if (type === 'progress' && onProgress) {
+        onProgress(data);
+      } else if (type === 'ready') {
+        worker?.postMessage({ type: 'transcribe', audioData: float32Data, language });
+      } else if (type === 'result') {
+        resolve(generateSRT(data));
+      } else if (type === 'error') {
+        reject(new Error(error));
+      } else if (type === 'log') {
+        if (onLog) onLog(data);
+      }
+    };
+
+    worker!.postMessage({ 
+      type: 'init', 
+      modelId: 'Xenova/whisper-base' // Use base for better language detection
+    });
   });
-  
-  URL.revokeObjectURL(url);
-  return generateSRT(output.chunks);
 };
