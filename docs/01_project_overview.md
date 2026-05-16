@@ -24,10 +24,3 @@ SubtitleApp adalah sebuah perangkat lunak berbasis web (Web App) yang berfungsi 
 
 ## Gaya Desain (UI/UX)
 - **Neo-Brutalism**: Menggunakan gaya desain yang mencolok dengan warna-warna solid yang kontras, garis batas (border) hitam yang tebal, bayangan keras (hard drop shadows), dan tipografi yang berani (bold).
-
-## Tujuan Dokumen Ini
-Folder `docs` ini berisi spesifikasi teknis dan alur kerja untuk memandu pengembangan aplikasi. Dokumen lainnya meliputi:
-- `02_tech_stack_and_plugins.md`: Pemilihan teknologi dan plugin.
-- `03_app_flow_and_architecture.md`: Alur penggunaan aplikasi.
-- `04_ui_ux_design.md`: Panduan desain Neo-brutalism.
-- `05_features_implementation.md`: Detail teknis implementasi fitur.
