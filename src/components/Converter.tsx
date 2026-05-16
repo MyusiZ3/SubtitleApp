@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Upload, Type, Zap, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Upload, Zap, CheckCircle2, AlertCircle } from 'lucide-react';
 import { convertSubtitle, downloadFile } from '../utils/subtitle';
 import type { SubtitleFormat } from '../utils/subtitle';
 

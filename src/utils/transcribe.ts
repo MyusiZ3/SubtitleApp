@@ -40,7 +40,7 @@ export const transcribeAudio = async (
   
   // Convert Uint8Array to Float32Array (required by transformers.js)
   // Note: This assumes the audio is already 16kHz mono WAV from FFmpeg
-  const blob = new Blob([audioData], { type: 'audio/wav' });
+  const blob = new Blob([audioData as any], { type: 'audio/wav' });
   const url = URL.createObjectURL(blob);
   
   const output = await instance(url, {

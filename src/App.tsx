@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Languages, Type, Video, Zap, Wrench } from "lucide-react";
 import Converter from "./components/Converter";
 import Translator from "./components/Translator";
-import AutoSubtitle from "./components/AutoSubtitle";
 import Editor from "./components/Editor";
 
 import BackgroundShapes from "./components/BackgroundShapes";

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Upload, Languages, CheckCircle2, AlertCircle, Loader2, Save, Edit3, X } from 'lucide-react';
+import { Upload, Languages, AlertCircle, Loader2, Save, X } from 'lucide-react';
 import { translateSubtitles } from '../utils/translate';
 import { downloadFile, buildSubtitle } from '../utils/subtitle';
 

@@ -1,4 +1,4 @@
-import subsrt from 'subsrt-ts';
+
 
 /**
  * Shifts subtitle timing by a given amount of milliseconds.
